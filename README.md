@@ -8,7 +8,7 @@ A personal portfolio site built around a football theme because the World Cup fe
 
 ## Features
 
-- **Hero — Starting XI card**: intro section styled like a player card, with a live "match clock" and a rolling football animation across a mini pitch (goalposts included).
+- **Hero Starting XI card**: intro section styled like a player card, with a live "match clock" and a rolling football animation across a mini pitch (goalposts included).
 - **Match Log (Experience)**: career timeline in two scroll segments, separated by a **Half Time** banner. A football icon tracks scroll progress down each segment and fades in/out at the edges of its own section.
 - **Depth Chart (Skills)**: four radar/spider charts (Languages, Tools, Python Libraries, Domain Knowledge), generated client-side from simple JSON so values are easy to tweak without touching layout code.
 - **Training Ground (Projects)**: project cards that link straight out to GitHub/live app links.

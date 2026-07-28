@@ -1,6 +1,6 @@
-# Adnan Bandey — Portfolio ("Pitch Report")
+# Adnan Bandey -> Portfolio ("Pitch Report")
 
-A personal portfolio site built around a football theme — because the World Cup fever might fade, but the love for the sport doesn't. Experience reads like a match log, skills are a depth chart, and there's a half-time break built into the scroll.
+A personal portfolio site built around a football theme because the World Cup fever might fade, but the love for the sport doesn't. Experience reads like a match log, skills are a depth chart, and there's a half-time break built into the scroll.
 
 **Live site:** _add your deployed URL here_
 
@@ -47,7 +47,7 @@ These aren't included in the repo — drop your own copies in the root folder wi
 | `rga.png` | Club badge on the FIFA-style player card |
 | `ADNAN_7YOE_v1.pdf` | Resume, linked from the "Download resume" button |
 
-> Note: `football.png` should be a photo you have the rights to use — avoid branded product photography (trademarks/logos) if the site is going to be public.
+> Note: `football.png` should be a photo you have the rights to use avoid branded product photography (trademarks/logos) if the site is going to be public.
 
 ## Running locally
 

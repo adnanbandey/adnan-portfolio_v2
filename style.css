@@ -1,0 +1,677 @@
+/* ============================================
+   PITCH REPORT — Adnan Bandey
+   Tokens
+   ============================================ */
+:root {
+  --pitch: #173B2B;
+  --pitch-2: #1F4D38;
+  --pitch-deep: #0E1C15;
+  --chalk: #F4F1E8;
+  --chalk-dim: #EAE5D6;
+  --gold: #E8B923;
+  --gold-dim: #C79A1B;
+  --ink: #14231A;
+  --ink-muted: #55604F;
+  --line: rgba(14, 28, 21, 0.14);
+  --line-strong: rgba(14, 28, 21, 0.28);
+
+  --font-display: 'Oswald', sans-serif;
+  --font-body: 'Inter', sans-serif;
+  --font-mono: 'IBM Plex Mono', monospace;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  background: var(--chalk);
+  color: var(--ink);
+  font-family: var(--font-body);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+
+.wrap { max-width: 1040px; margin: 0 auto; padding: 0 40px; }
+
+img { max-width: 100%; display: block; }
+a { color: inherit; }
+
+::selection { background: var(--gold); color: var(--pitch-deep); }
+
+/* ============================================
+   Cleat cursor — scoped to the hero pitch only,
+   magnetic pull on buttons/social icons
+   ============================================ */
+.hero.cleat-active,
+.hero.cleat-active * {
+  cursor: none;
+}
+.cleat-cursor {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 34px;
+  height: 34px;
+  pointer-events: none;
+  z-index: 9999;
+  opacity: 0;
+  transform: translate(-15%, -55%);
+  transition: opacity 0.15s ease;
+}
+.cleat-cursor svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+  filter: drop-shadow(0 3px 4px rgba(0, 0, 0, 0.4));
+}
+
+/* ============================================
+   Section label
+   ============================================ */
+.section-label {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 32px;
+}
+.section-label .badge {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  background: var(--pitch);
+  color: var(--gold);
+  padding: 4px 10px;
+  border-radius: 3px;
+}
+.section-label h2 {
+  font-family: var(--font-display);
+  text-transform: uppercase;
+  font-size: 22px;
+  letter-spacing: 0.02em;
+  margin: 0;
+  color: var(--ink);
+}
+.section-label::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: var(--line);
+}
+
+.section { padding: 76px 0; }
+
+/* ============================================
+   HERO — Starting XI card
+   ============================================ */
+.hero {
+  background: linear-gradient(160deg, var(--pitch) 0%, var(--pitch-2) 100%);
+  color: var(--chalk);
+  position: relative;
+  overflow: hidden;
+}
+.hero::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: repeating-linear-gradient(
+    90deg,
+    rgba(244, 241, 232, 0.045) 0px,
+    rgba(244, 241, 232, 0.045) 1px,
+    transparent 1px,
+    transparent 90px
+  );
+  pointer-events: none;
+}
+
+/* Decorative pitch overlay: goalposts (static SVG) + rolling ball (real photo, zigzag path) */
+.hero-field {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+  z-index: 0;
+}
+.goal-svg { position: absolute; inset: 0; width: 100%; height: 100%; }
+.goal-post path {
+  stroke: rgba(244, 241, 232, 0.4);
+  stroke-width: 5;
+  fill: none;
+  stroke-linejoin: round;
+  stroke-linecap: round;
+}
+
+.pitch-ball-photo {
+  position: absolute;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  object-fit: cover;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.45);
+  animation: ballZigzag 13s ease-in-out infinite;
+}
+.physics-layer {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+}
+@keyframes ballZigzag {
+  0%   { top: 12%; left: 10%; transform: rotate(0deg)   scale(1);    }
+  9%   { top: 30%; left: 24%; transform: rotate(150deg) scale(1.08); }
+  17%  { top: 12%; left: 40%; transform: rotate(255deg) scale(0.9);  }
+  26%  { top: 42%; left: 32%; transform: rotate(70deg)  scale(1.1);  }
+  35%  { top: 20%; left: 56%; transform: rotate(320deg) scale(0.95); }
+  44%  { top: 58%; left: 63%; transform: rotate(190deg) scale(1);    }
+  53%  { top: 30%; left: 76%; transform: rotate(45deg)  scale(1.08); }
+  62%  { top: 62%; left: 46%; transform: rotate(230deg) scale(0.9);  }
+  71%  { top: 44%; left: 20%; transform: rotate(300deg) scale(1.05); }
+  80%  { top: 66%; left: 68%; transform: rotate(110deg) scale(1);    }
+  89%  { top: 18%; left: 58%; transform: rotate(200deg) scale(0.95); }
+  100% { top: 12%; left: 10%; transform: rotate(360deg) scale(1);    }
+}
+
+/* Mobile: the hero is much taller relative to its width, so the full-range
+   zigzag above would carry the ball down into the name/role text. This
+   keeps it confined to a strip above the card instead. */
+@keyframes ballZigzagMobile {
+  0%   { top: 3%;  left: 8%;  transform: rotate(0deg)   scale(0.85); }
+  20%  { top: 9%;  left: 55%; transform: rotate(140deg) scale(0.9);  }
+  40%  { top: 4%;  left: 78%; transform: rotate(250deg) scale(0.8);  }
+  60%  { top: 11%; left: 30%; transform: rotate(60deg)  scale(0.9);  }
+  80%  { top: 5%;  left: 15%; transform: rotate(300deg) scale(0.85); }
+  100% { top: 3%;  left: 8%;  transform: rotate(360deg) scale(0.85); }
+}
+@media (max-width: 640px) {
+  .pitch-ball-photo { animation-name: ballZigzagMobile; width: 34px; height: 34px; }
+}
+
+.hero-content { position: relative; z-index: 2; padding-top: 36px; padding-bottom: 64px; }
+
+.matchbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: rgba(244, 241, 232, 0.6);
+  border-bottom: 1px solid rgba(244, 241, 232, 0.18);
+  padding-bottom: 16px;
+  margin-bottom: 48px;
+}
+.matchbar .live { color: var(--gold); display: flex; align-items: center; gap: 7px; }
+.matchbar .live-dot {
+  width: 7px; height: 7px; border-radius: 50%; background: var(--gold);
+  animation: pulse 1.6s infinite;
+}
+@keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.25; } }
+
+.hero-card {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 32px;
+  align-items: center;
+}
+.squad-photo {
+  position: relative;
+  width: 190px;
+  cursor: pointer;
+  will-change: transform;
+}
+.squad-photo img {
+  width: 100%;
+  height: auto;
+  display: block;
+  filter: drop-shadow(0 16px 26px rgba(0, 0, 0, 0.4));
+}
+
+.pos-tag {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: var(--gold);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  margin-bottom: 10px;
+}
+h1.name {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 50px;
+  text-transform: uppercase;
+  letter-spacing: 0.01em;
+  margin: 0 0 6px;
+  line-height: 1.02;
+}
+.role {
+  font-family: var(--font-body);
+  font-size: 16px;
+  color: rgba(244, 241, 232, 0.75);
+  margin: 0 0 22px;
+}
+
+.attrs {
+  display: flex;
+  gap: 34px;
+  flex-wrap: wrap;
+  margin-bottom: 28px;
+}
+.attr { display: flex; flex-direction: column; }
+.attr b {
+  font-family: var(--font-display);
+  font-size: 28px;
+  color: var(--gold);
+  line-height: 1;
+}
+.attr span {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  text-transform: uppercase;
+  color: rgba(244, 241, 232, 0.55);
+  letter-spacing: 0.06em;
+  margin-top: 4px;
+}
+
+.hero-actions { display: flex; gap: 12px; flex-wrap: wrap; }
+.btn {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  padding: 13px 22px;
+  border-radius: 100px;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  transition: transform 0.15s ease, opacity 0.15s ease;
+}
+.btn:hover { opacity: 0.95; }
+.btn-gold { background: var(--gold); color: var(--pitch-deep); }
+.btn-ghost { background: transparent; color: var(--chalk); border: 1px solid rgba(244, 241, 232, 0.35); }
+
+/* Download-resume "transfer window" hover swap — fixed-height text strip
+   tall enough (18px) to hold 12px uppercase text without clipping it */
+.transfer-btn { position: relative; }
+.transfer-text {
+  display: block;
+  position: relative;
+  height: 18px;
+  overflow: hidden;
+  min-width: 132px;
+}
+.t-default, .t-hover {
+  display: block;
+  height: 18px;
+  line-height: 18px;
+  white-space: nowrap;
+  transition: transform 0.35s cubic-bezier(0.65, 0, 0.35, 1);
+}
+.t-hover { position: absolute; top: 0; left: 0; transform: translateY(100%); }
+.transfer-btn:hover .t-default { transform: translateY(-100%); }
+.transfer-btn:hover .t-hover { transform: translateY(0); }
+
+@media (max-width: 640px) {
+  .hero-card { grid-template-columns: 1fr; text-align: center; }
+  .squad-photo { margin: 0 auto; }
+  .attrs { justify-content: center; }
+  .hero-actions { justify-content: center; }
+  h1.name { font-size: 36px; }
+  .role { text-align: center; max-width: 32ch; margin-left: auto; margin-right: auto; }
+  .hero-content { padding-bottom: 90px; }
+}
+
+/* ============================================
+   EXPERIENCE — Match timeline
+   ============================================ */
+.timeline { position: relative; padding-left: 30px; border-left: 3px solid var(--pitch); }
+.stop { margin-bottom: 40px; position: relative; }
+.stop:last-child { margin-bottom: 0; }
+.stop::before {
+  content: '';
+  position: absolute;
+  left: -37.5px;
+  top: 4px;
+  width: 14px;
+  height: 14px;
+  background: var(--gold);
+  border-radius: 50%;
+  border: 3px solid var(--chalk);
+}
+.stop.live::before { background: var(--pitch); box-shadow: 0 0 0 3px var(--gold); }
+
+/* Scroll-tracking football marker riding the timeline's vertical line */
+.scroll-ball {
+  position: absolute;
+  left: -31px;
+  top: 0%;
+  width: 24px;
+  height: 24px;
+  opacity: 0;
+  transform: translate(-50%, -50%);
+  z-index: 3;
+  pointer-events: none;
+}
+.scroll-ball img {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  object-fit: cover;
+  display: block;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+}
+
+.stop-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-bottom: 6px;
+}
+.minute {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: var(--pitch);
+  font-weight: 500;
+  letter-spacing: 0.04em;
+}
+.stop.live .minute { color: var(--gold-dim); }
+.loc { font-family: var(--font-mono); font-size: 11px; color: var(--ink-muted); }
+
+.stop h3 {
+  font-family: var(--font-display);
+  font-size: 20px;
+  text-transform: uppercase;
+  margin: 4px 0 4px;
+  letter-spacing: 0.01em;
+}
+.stop .co { color: var(--pitch); border-bottom: 2px solid var(--gold); text-decoration: none; padding-bottom: 1px; }
+.stop .club-desc {
+  font-size: 12.5px;
+  font-style: italic;
+  color: var(--ink-muted);
+  margin: 0 0 10px;
+}
+.stop ul {
+  margin: 8px 0 0;
+  padding-left: 18px;
+  font-size: 13.5px;
+  color: #40493f;
+}
+.stop ul li { margin-bottom: 6px; }
+
+/* ============================================
+   HALF TIME — low, horizontal banner (in normal flow,
+   not a full-screen takeover) between the two timeline segments
+   ============================================ */
+.half-time-banner {
+  background: var(--pitch-deep);
+  color: var(--chalk);
+  padding: 30px 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+  text-align: center;
+}
+.half-time-banner .icon { color: var(--gold); display: flex; align-items: center; }
+.half-time-banner .htb-copy { display: flex; align-items: baseline; gap: 14px; flex-wrap: wrap; justify-content: center; }
+.half-time-banner .tag {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: rgba(244, 241, 232, 0.55);
+}
+.half-time-banner h2 {
+  font-family: var(--font-display);
+  text-transform: uppercase;
+  font-size: 26px;
+  letter-spacing: 0.02em;
+  margin: 0;
+  color: var(--gold);
+}
+.half-time-banner p {
+  font-family: var(--font-body);
+  font-size: 13.5px;
+  color: rgba(244, 241, 232, 0.65);
+  margin: 0;
+}
+
+@media (max-width: 640px) {
+  .half-time-banner { flex-direction: column; gap: 10px; padding: 26px 24px; }
+}
+
+/* ============================================
+   SKILLS — Depth chart (compact radar quadrants)
+   ============================================ */
+.depth-chart {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 28px;
+}
+.radar-card {
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  padding: 20px 16px 14px;
+}
+.radar-card h4 {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--pitch);
+  margin: 0 0 6px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.radar-card h4::before {
+  content: '';
+  width: 16px;
+  height: 3px;
+  background: var(--gold);
+  display: inline-block;
+}
+.radar-canvas { width: 100%; max-width: 220px; margin: 0 auto; }
+.radar-svg { width: 100%; height: auto; display: block; overflow: visible; }
+.radar-ring { fill: none; stroke: var(--line); stroke-width: 1; }
+.radar-axis { stroke: var(--line); stroke-width: 1; }
+.radar-shape { fill: rgba(232, 185, 35, 0.28); stroke: var(--gold-dim); stroke-width: 2; stroke-linejoin: round; }
+.radar-dot { fill: var(--gold-dim); }
+.radar-label {
+  font-family: var(--font-mono);
+  font-size: 7.5px;
+  fill: var(--ink-muted);
+}
+
+@media (max-width: 700px) {
+  .depth-chart { grid-template-columns: 1fr; }
+}
+
+/* ============================================
+   PROJECTS — Training Ground (whole card is a link)
+   ============================================ */
+.highlights-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 22px;
+}
+.highlight-card {
+  background: var(--pitch-deep);
+  color: var(--chalk);
+  border-radius: 12px;
+  padding: 28px;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  overflow: hidden;
+  text-decoration: none;
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+.highlight-card:hover { transform: translateY(-4px); box-shadow: 0 14px 28px rgba(0,0,0,0.28); }
+.highlight-card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: repeating-linear-gradient(
+    90deg, rgba(244,241,232,0.03) 0 1px, transparent 1px 60px
+  );
+}
+.clip-tag {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  color: var(--gold);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 14px;
+}
+.clip-tag .play {
+  width: 0; height: 0;
+  border-top: 5px solid transparent;
+  border-bottom: 5px solid transparent;
+  border-left: 8px solid var(--gold);
+}
+.highlight-card h3 {
+  font-family: var(--font-display);
+  text-transform: uppercase;
+  font-size: 19px;
+  margin: 0 0 12px;
+  letter-spacing: 0.01em;
+}
+.jersey-tags { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 14px; }
+.jersey-tag {
+  font-family: var(--font-mono);
+  font-size: 10.5px;
+  border: 1px solid rgba(244,241,232,0.3);
+  color: rgba(244,241,232,0.85);
+  padding: 3px 9px;
+  border-radius: 4px;
+}
+.highlight-card p { font-size: 13.5px; color: rgba(244,241,232,0.75); flex-grow: 1; margin: 0 0 20px; }
+.watch-link {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: var(--gold);
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  align-self: flex-start;
+}
+.highlight-card:hover .watch-link { text-decoration: underline; }
+
+/* ============================================
+   EDUCATION — The academy
+   ============================================ */
+.academy-timeline { display: grid; gap: 18px; }
+.academy-item {
+  display: grid;
+  grid-template-columns: 150px 1fr;
+  gap: 20px;
+  padding: 20px 0;
+  border-top: 1px solid var(--line);
+}
+.academy-item:first-child { border-top: none; padding-top: 0; }
+.academy-item .yrs { font-family: var(--font-mono); font-size: 12px; color: var(--ink-muted); }
+.academy-item h3 { font-family: var(--font-display); text-transform: uppercase; font-size: 17px; margin: 0 0 6px; }
+.academy-item .co { color: var(--pitch); border-bottom: 2px solid var(--gold); text-decoration: none; }
+.academy-item p { font-size: 13.5px; color: var(--ink-muted); margin: 0; }
+
+/* ============================================
+   FOOTER — Full time
+   ============================================ */
+.fulltime {
+  background: var(--pitch-deep);
+  color: var(--chalk);
+  padding: 70px 0 40px;
+  text-align: center;
+}
+.fulltime .whistle {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 18px;
+}
+.fulltime h2 {
+  font-family: var(--font-display);
+  text-transform: uppercase;
+  font-size: 42px;
+  margin: 0 0 34px;
+  letter-spacing: 0.01em;
+}
+.fulltime h2 a { text-decoration: none; color: var(--chalk); transition: color 0.2s ease; }
+.fulltime h2 a:hover { color: var(--gold); }
+
+.social-links-icons {
+  display: flex;
+  justify-content: center;
+  gap: 28px;
+  margin-bottom: 40px;
+}
+.social-links-icons a {
+  color: rgba(244, 241, 232, 0.65);
+  transition: color 0.2s ease, transform 0.2s ease;
+}
+.social-links-icons a:hover { color: var(--gold); }
+
+.copyright { color: rgba(244, 241, 232, 0.45); font-size: 12.5px; line-height: 1.8; font-family: var(--font-mono); }
+
+.ai-cta {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 34px;
+}
+.ai-cta-label {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: rgba(244, 241, 232, 0.4);
+}
+.ai-cta-link {
+  font-family: var(--font-mono);
+  font-size: 13px;
+  color: var(--gold);
+  text-decoration: none;
+  border-bottom: 1px solid rgba(232, 185, 35, 0.4);
+  padding-bottom: 1px;
+  transition: border-color 0.2s ease;
+}
+.ai-cta-link:hover { border-color: var(--gold); }
+
+/* ============================================
+   Scroll-reveal base state (JS adds .in-view)
+   ============================================ */
+.reveal { opacity: 0; transform: translateY(24px); }
+.reveal.in-view { opacity: 1; transform: translateY(0); transition: opacity 0.6s ease, transform 0.6s ease; }
+
+@media (prefers-reduced-motion: reduce) {
+  .reveal { opacity: 1; transform: none; }
+  .live-dot { animation: none; }
+  .pitch-ball-photo { display: none; }
+}
+
+@media (max-width: 700px) {
+  .wrap { padding: 0 22px; }
+  .section { padding: 56px 0; }
+  .academy-item { grid-template-columns: 1fr; gap: 4px; }
+  .fulltime h2 { font-size: 30px; }
+  .scroll-ball { left: -30px; width: 18px; height: 18px; }
+  .timeline { padding-left: 26px; }
+}
+
+@media (max-width: 480px) {
+  .matchbar { flex-direction: column; align-items: flex-start; gap: 8px; }
+  .goal-svg { opacity: 0.35; }
+}

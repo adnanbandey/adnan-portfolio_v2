@@ -2,7 +2,7 @@ Portfolio ("Pitch Report")
 
 A personal portfolio site built around a football theme because the World Cup fever might fade, but the love for the sport doesn't. Experience reads like a match log, skills are a depth chart, and there's a half-time break built into the scroll.
 
-**Live site:** _add your deployed URL here_
+**Live site:** (https://adnan-portfolio-v2-kappa.vercel.app/)
 
 ---
 
